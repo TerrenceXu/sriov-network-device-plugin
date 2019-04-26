@@ -24,6 +24,7 @@
       - [Verify Pod network interfaces](#verify-pod-network-interfaces)
       - [Verify Pod routing table](#verify-pod-routing-table)
     - [Pod device information](#pod-device-information)
+- [New mdev device plugin](#new-mdev-device-plugin)
 - [Issues and Contributing](#issues-and-contributing)
 
 ## SRIOV Network Device Plugin
@@ -62,17 +63,17 @@ Please follow the Multus [Quick Start](#quick-start) for multi network interface
 ### Supported SRIOV NICs
 
 The following  NICs were tested with this implementation. However, other SRIOV capable NICs should work as well.
--  Intel® Ethernet Controller X710 Series 4x10G
+-  IntelÂ® Ethernet Controller X710 Series 4x10G
 		- PF driver : v2.4.6
 		- VF driver: v3.5.6
 > please refer to Intel download center for installing latest [Intel Ethernet Controller-X710-Series](https://downloadcenter.intel.com/product/82947/Intel-Ethernet-Controller-X710-Series) drivers
- - Intel® 82599ES 10 Gigabit Ethernet Controller
+ - IntelÂ® 82599ES 10 Gigabit Ethernet Controller
 	- PF driver : v4.4.0-k
 	- VF driver: v3.2.2-k
-> please refer to Intel download center for installing latest [Intel-® 82599ES 10 Gigabit Ethernet](https://ark.intel.com/products/41282/Intel-82599ES-10-Gigabit-Ethernet-Controller) drivers
+> please refer to Intel download center for installing latest [Intel-Â® 82599ES 10 Gigabit Ethernet](https://ark.intel.com/products/41282/Intel-82599ES-10-Gigabit-Ethernet-Controller) drivers
 
-- Mellanox ConnectX�-4 Lx EN Adapter
-- Mellanox ConnectX�-5 Adapter
+- Mellanox ConnectX®-4 Lx EN Adapter
+- Mellanox ConnectX®-5 Adapter
 > Network card drivers are available as a part of the various linux distributions and upstream.
 To download the latest Mellanox NIC drivers, click [here](http://www.mellanox.com/page/software_overview_eth).
 
@@ -301,8 +302,30 @@ The allocated device information are exported in Container's environment variabl
 For example, if 2 devices are allocated from `intel.com/sriov` extended resource then the allocated device information will be found in following env variable:
 `PCIDEVICE_INTEL_COM_SRIOV=0000:03:02.1,0000:03:04.3`
 
+
+## New mdev device plugin
+
+We extended this Kubernetes device plugin for mediate device (mdev) support, which is a recent addition to linux vfio framework that is currently used by, e.g. Intel Graphics Virtualization (GVT-g).
+
+This plugin also creates device plugin endpoints based on the configurations given in file `/etc/pcidp/config.json`. This configuration file is in json format as shown below (with "mdevMode" parameter):
+
+```json
+{
+    "resourceList":
+    [
+        {
+            "resourceName": "vgpu",
+            "rootDevices": [ "00:02.0" ],
+            "MdevMode": true,
+            "deviceType": "vfio"
+        }
+    ]
+}
+
+```
+
 ## Issues and Contributing
 
 We welcome your feedback and contributions to this project. Please see the [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines. 
 
-Copyright 2018 © Intel Corporation.
+Copyright 2018 Â© Intel Corporation.
