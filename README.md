@@ -307,7 +307,7 @@ For example, if 2 devices are allocated from `intel.com/sriov` extended resource
 
 We extended this Kubernetes device plugin for mediate device (mdev) support, which is a recent addition to linux vfio framework that is currently used by, e.g. Intel Graphics Virtualization (GVT-g).
 
-This plugin also creates device plugin endpoints based on the configurations given in file `/etc/pcidp/config.json`. This configuration file is in json format as shown below (with "mdevMode" parameter):
+This plugin also creates device plugin endpoints based on the configurations given in file `/etc/pcidp/config.json`. This configuration file is in json format as shown below (with "MdevMode" parameter is true).
 
 ```json
 {
@@ -323,6 +323,8 @@ This plugin also creates device plugin endpoints based on the configurations giv
 }
 
 ```
+
+It will discover the root devices corresponding mediate devices by UUID. The you can follow the same steps of SRIOV device plugin to create Pod with mdev devices.
 
 ## Issues and Contributing
 
